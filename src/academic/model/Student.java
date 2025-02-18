@@ -16,7 +16,7 @@ public class Student {
         this.name = name;
         this.year = year;
         this.major = major;
-    }
+    } 
 
     public String getId() {
         return id;

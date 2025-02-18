@@ -15,7 +15,7 @@ public class Enrollment {
         this.courseCode = courseCode;
         this.studentId = studentId;
         this.academicYear = academicYear;
-        this.semester = semester;
+        this.semester = semester; 
     }
 
     public String getCourseCode() {
