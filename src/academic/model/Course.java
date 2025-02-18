@@ -6,13 +6,19 @@ package academic.model;
  */
 
 
-public class Course {
+ public class Course {
     private String code;
     private String name;
     private int credits;
     private String grade;
 
-    public Course(String code, String name, int credits, String grade) {
+    public Course(String code, String name, int credits, String grade) throws IllegalArgumentException {
+        if (code == null || code.isEmpty()) {
+            throw new IllegalArgumentException("invalid course|" + code);
+        }
+        if (credits <= 0) {
+            throw new IllegalArgumentException("invalid course credits|" + credits);
+        }
         this.code = code;
         this.name = name;
         this.credits = credits;

@@ -11,7 +11,13 @@ public class Student {
     private int year;
     private String major;
 
-    public Student(String id, String name, int year, String major) {
+    public Student(String id, String name, int year, String major) throws IllegalArgumentException {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("invalid student|" + id);
+        }
+        if (year < 2000 || year > 2100) {  // Batasan wajar tahun masuk
+            throw new IllegalArgumentException("invalid student year|" + year);
+        }
         this.id = id;
         this.name = name;
         this.year = year;
