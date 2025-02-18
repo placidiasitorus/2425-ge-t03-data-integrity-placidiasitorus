@@ -116,7 +116,7 @@ public class Driver1 {
                 enrollment.getSemester().equals(semester)) {
                 return true;
             }
-        }
+        } 
         return false;
     }
 }

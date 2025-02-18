@@ -8,7 +8,7 @@ package academic.model;
 public class Enrollment {
     private String studentId;
     private String academicYear;
-    private String semester;
+    private String semester; 
     private String courseCode;
 
     public Enrollment(String courseCode, String studentId, String academicYear, String semester) {

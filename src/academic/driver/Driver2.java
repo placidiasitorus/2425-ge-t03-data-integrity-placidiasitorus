@@ -13,10 +13,10 @@ import java.util.*;
 public class Driver2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Course> courses = new ArrayList<>();  // Menjaga urutan input
-        List<Student> students = new ArrayList<>(); // Menjaga urutan input
+        List<Course> courses = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
         List<Enrollment> enrollments = new ArrayList<>();
-        List<String> errors = new ArrayList<>(); // Menyimpan error agar dicetak lebih dulu
+        List<String> errors = new ArrayList<>();
 
         while (true) {
             String input = scanner.nextLine();
@@ -73,22 +73,20 @@ public class Driver2 {
             }
         }
 
-        // Cetak semua error terlebih dahulu
         for (String error : errors) {
             System.out.println(error);
         }
 
-        // Cetak courses sesuai urutan input
+        courses.sort(Comparator.comparing(Course::getCode));
         for (Course course : courses) {
             System.out.println(course);
         }
 
-        // Cetak students sesuai urutan input
+        students.sort(Comparator.comparing(Student::getId));
         for (Student student : students) {
             System.out.println(student);
         }
 
-        // Cetak enrollments sesuai urutan input
         for (Enrollment enrollment : enrollments) {
             System.out.println(enrollment);
         }

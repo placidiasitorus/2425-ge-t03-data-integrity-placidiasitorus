@@ -5,7 +5,7 @@ package academic.model;
  * @author 12s23034 Pariama Valentino Sihombing
  */
 
-public class Student {
+public class Student { 
     private String id;
     private String name;
     private int year;
