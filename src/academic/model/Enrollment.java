@@ -10,7 +10,7 @@ public class Enrollment {
     private String academicYear;
     private String semester; 
     private String courseCode;
-
+ 
     public Enrollment(String courseCode, String studentId, String academicYear, String semester) {
         this.courseCode = courseCode;
         this.studentId = studentId;

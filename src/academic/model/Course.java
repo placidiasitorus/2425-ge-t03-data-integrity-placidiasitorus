@@ -8,7 +8,7 @@ package academic.model;
 public class Course {
     private String code;
     private String name;
-    private int credits;
+    private int credits; 
     private String grade;
 
     public Course(String code, String name, int credits, String grade) {

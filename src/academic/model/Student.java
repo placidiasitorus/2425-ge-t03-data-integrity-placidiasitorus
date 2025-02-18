@@ -9,7 +9,7 @@ public class Student {
     private String id;
     private String name;
     private int year;
-    private String major;
+    private String major; 
 
     public Student(String id, String name, int year, String major) {
         this.id = id;
