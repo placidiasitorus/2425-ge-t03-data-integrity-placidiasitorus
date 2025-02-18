@@ -3,9 +3,7 @@ package academic.driver;
 import academic.model.Course;
 import academic.model.Enrollment;
 import academic.model.Student;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @autor 12S23034 Pariama Valentino
@@ -15,15 +13,17 @@ import java.util.Scanner;
 public class Driver2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Course> courses = new ArrayList<>();
-        List<Student> students = new ArrayList<>();
+        List<Course> courses = new ArrayList<>();  // Menjaga urutan input
+        List<Student> students = new ArrayList<>(); // Menjaga urutan input
         List<Enrollment> enrollments = new ArrayList<>();
+        List<String> errors = new ArrayList<>(); // Menyimpan error agar dicetak lebih dulu
 
         while (true) {
             String input = scanner.nextLine();
             if (input.equals("---")) {
                 break;
             }
+
             String[] parts = input.split("#");
             String command = parts[0];
 
@@ -37,8 +37,6 @@ public class Driver2 {
 
                         if (!isCourseExists(courses, code)) {
                             courses.add(new Course(code, name, credits, grade));
-                        } else {
-                            System.out.println("invalid course|" + code);
                         }
                     }
                     break;
@@ -52,8 +50,6 @@ public class Driver2 {
 
                         if (!isStudentExists(students, id)) {
                             students.add(new Student(id, name, year, major));
-                        } else {
-                            System.out.println("invalid student|" + id);
                         }
                     }
                     break;
@@ -66,27 +62,33 @@ public class Driver2 {
                         String semester = parts[4];
 
                         if (!isCourseExists(courses, courseCode)) {
-                            System.out.println("invalid course|" + courseCode);
+                            errors.add("invalid course|" + courseCode);
                         } else if (!isStudentExists(students, studentId)) {
-                            System.out.println("invalid student|" + studentId);
-                        } else if (!isEnrollmentExists(enrollments, courseCode, studentId, academicYear, semester)) {
-                            enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
+                            errors.add("invalid student|" + studentId);
                         } else {
-                            System.out.println("Duplicate enrollment detected: " + courseCode + " - " + studentId);
+                            enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
                         }
                     }
                     break;
             }
         }
 
+        // Cetak semua error terlebih dahulu
+        for (String error : errors) {
+            System.out.println(error);
+        }
+
+        // Cetak courses sesuai urutan input
         for (Course course : courses) {
             System.out.println(course);
         }
 
+        // Cetak students sesuai urutan input
         for (Student student : students) {
             System.out.println(student);
         }
 
+        // Cetak enrollments sesuai urutan input
         for (Enrollment enrollment : enrollments) {
             System.out.println(enrollment);
         }
@@ -106,18 +108,6 @@ public class Driver2 {
     private static boolean isStudentExists(List<Student> students, String id) {
         for (Student student : students) {
             if (student.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean isEnrollmentExists(List<Enrollment> enrollments, String courseCode, String studentId, String academicYear, String semester) {
-        for (Enrollment enrollment : enrollments) {
-            if (enrollment.getCourseCode().equals(courseCode) &&
-                enrollment.getStudentId().equals(studentId) &&
-                enrollment.getAcademicYear().equals(academicYear) &&
-                enrollment.getSemester().equals(semester)) {
                 return true;
             }
         }

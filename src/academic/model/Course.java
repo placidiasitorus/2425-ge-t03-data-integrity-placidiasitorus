@@ -1,34 +1,26 @@
 package academic.model;
 
 /**
- * @author 12S23022 P. Santa Hillary Sitorus
- * @author 12S23034 Pariama Valentino Sihombing
+ * @author 12s23022 P. Santa Hillary Sitorus
+ * @author 12s23034 Pariama Valentino Sihombing
  */
 
-
- public class Course {
+public class Course {
     private String code;
     private String name;
     private int credits;
     private String grade;
 
-    public Course(String code, String name, int credits, String grade) throws IllegalArgumentException {
-        if (code == null || code.isEmpty()) {
-            throw new IllegalArgumentException("invalid course|" + code);
-        }
-        if (credits <= 0) {
-            throw new IllegalArgumentException("invalid course credits|" + credits);
-        }
+    public Course(String code, String name, int credits, String grade) {
         this.code = code;
         this.name = name;
         this.credits = credits;
         this.grade = grade;
     }
 
-    public String getCode() { return code; }
-    public String getName() { return name; }
-    public int getCredits() { return credits; }
-    public String getGrade() { return grade; }
+    public String getCode() {
+        return code;
+    }
 
     @Override
     public String toString() {

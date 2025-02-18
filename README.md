@@ -41,7 +41,8 @@ enrollment-add#12S2200#12S20000#2020/2021#odd
 
 ```
 
-Pemeriksaan terhadap validitas terlebih dahulu dilakukan terhadap ```course``` kemudian ```student```.
+Pemeriksaan terhadap validitas terlebih da
+hulu dilakukan terhadap ```course``` kemudian ```student```.
 
 **Output:**
 ```bash
