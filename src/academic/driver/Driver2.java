@@ -3,7 +3,9 @@ package academic.driver;
 import academic.model.Course;
 import academic.model.Enrollment;
 import academic.model.Student;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * @autor 12S23034 Pariama Valentino
@@ -16,7 +18,7 @@ public class Driver2 {
         List<Course> courses = new ArrayList<>();
         List<Student> students = new ArrayList<>();
         List<Enrollment> enrollments = new ArrayList<>();
-        List<String> errors = new ArrayList<>();
+        List<String> errors = new ArrayList<>(); // List untuk menyimpan pesan error
 
         while (true) {
             String input = scanner.nextLine();
@@ -73,20 +75,22 @@ public class Driver2 {
             }
         }
 
+        // Cetak semua error terlebih dahulu
         for (String error : errors) {
             System.out.println(error);
         }
 
-        courses.sort(Comparator.comparing(Course::getCode));
+        // Cetak semua courses
         for (Course course : courses) {
             System.out.println(course);
         }
 
-        students.sort(Comparator.comparing(Student::getId));
+        // Cetak semua students
         for (Student student : students) {
             System.out.println(student);
         }
 
+        // Cetak semua enrollments
         for (Enrollment enrollment : enrollments) {
             System.out.println(enrollment);
         }
@@ -111,5 +115,4 @@ public class Driver2 {
         }
         return false;
     }
-
 }
