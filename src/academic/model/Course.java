@@ -21,7 +21,7 @@ public class Course {
     public String getCode() {
         return code;
     }
- 
+  
     @Override
     public String toString() {
         return code + "|" + name + "|" + credits + "|" + grade;

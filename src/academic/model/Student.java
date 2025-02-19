@@ -15,7 +15,7 @@ public class Student {
         this.id = id;
         this.name = name;
         this.year = year;
-        this.major = major;
+        this.major = major; 
     } 
  
     public String getId() {

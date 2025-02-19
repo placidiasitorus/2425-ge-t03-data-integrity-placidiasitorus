@@ -6,10 +6,9 @@ import academic.model.Student;
 import java.util.*;
 
 /**
- * @autor 12S23034 Pariama Valentino
- * @autor 12S23022 P. Santa Hillary Sitorus
+ * @author 12S23034 Pariama Valentino
+ * @author 12S23022 P. Santa Hillary Sitorus
  */
-
 public class Driver2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -61,12 +60,12 @@ public class Driver2 {
                         String academicYear = parts[3];
                         String semester = parts[4];
 
-                        if (!isCourseExists(courses, courseCode)) {
-                            errors.add("invalid course|" + courseCode);
-                        } else if (!isStudentExists(students, studentId)) {
+                        if (!isStudentExists(students, studentId)) {
                             errors.add("invalid student|" + studentId);
+                        } else if (!isCourseExists(courses, courseCode)) {
+                            errors.add("invalid course|" + courseCode);
                         } else {
-                            enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
+                            // enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester, "None"));
                         }
                     }
                     break;
@@ -95,22 +94,10 @@ public class Driver2 {
     }
 
     private static boolean isCourseExists(List<Course> courses, String code) {
-        for (Course course : courses) {
-            if (course.getCode().equals(code)) {
-                return true;
-            }
-        }
-        return false;
+        return courses.stream().anyMatch(course -> course.getCode().equals(code));
     }
 
     private static boolean isStudentExists(List<Student> students, String id) {
-        for (Student student : students) {
-            if (student.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return students.stream().anyMatch(student -> student.getId().equals(id));
     }
-
 }
-   
