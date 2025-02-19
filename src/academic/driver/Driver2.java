@@ -3,9 +3,7 @@ package academic.driver;
 import academic.model.Course;
 import academic.model.Enrollment;
 import academic.model.Student;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @autor 12S23034 Pariama Valentino
@@ -18,15 +16,19 @@ public class Driver2 {
         List<Course> courses = new ArrayList<>();
         List<Student> students = new ArrayList<>();
         List<Enrollment> enrollments = new ArrayList<>();
-        List<String> errors = new ArrayList<>(); // List untuk menyimpan pesan error
+        List<String> errors = new ArrayList<>();
+        Set<String> courseCodes = new HashSet<>();
+        Set<String> studentIds = new HashSet<>();
 
-        while (true) {
-            String input = scanner.nextLine();
+        while (scanner.hasNextLine()) {
+            String input = scanner.nextLine().trim();
             if (input.equals("---")) {
                 break;
             }
 
             String[] parts = input.split("#");
+            if (parts.length < 2) continue; // Skip jika format tidak sesuai
+            
             String command = parts[0];
 
             switch (command) {
@@ -34,11 +36,18 @@ public class Driver2 {
                     if (parts.length == 5) {
                         String code = parts[1];
                         String name = parts[2];
-                        int credits = Integer.parseInt(parts[3]);
+                        int credits;
+                        try {
+                            credits = Integer.parseInt(parts[3]);
+                        } catch (NumberFormatException e) {
+                            errors.add("invalid course credits|" + parts[3]);
+                            break;
+                        }
                         String grade = parts[4];
 
-                        if (!isCourseExists(courses, code)) {
+                        if (!courseCodes.contains(code)) {
                             courses.add(new Course(code, name, credits, grade));
+                            courseCodes.add(code);
                         }
                     }
                     break;
@@ -47,11 +56,18 @@ public class Driver2 {
                     if (parts.length == 5) {
                         String id = parts[1];
                         String name = parts[2];
-                        int year = Integer.parseInt(parts[3]);
+                        int year;
+                        try {
+                            year = Integer.parseInt(parts[3]);
+                        } catch (NumberFormatException e) {
+                            errors.add("invalid student year|" + parts[3]);
+                            break;
+                        }
                         String major = parts[4];
 
-                        if (!isStudentExists(students, id)) {
+                        if (!studentIds.contains(id)) {
                             students.add(new Student(id, name, year, major));
+                            studentIds.add(id);
                         }
                     }
                     break;
@@ -63,9 +79,9 @@ public class Driver2 {
                         String academicYear = parts[3];
                         String semester = parts[4];
 
-                        if (!isCourseExists(courses, courseCode)) {
+                        if (!courseCodes.contains(courseCode)) {
                             errors.add("invalid course|" + courseCode);
-                        } else if (!isStudentExists(students, studentId)) {
+                        } else if (!studentIds.contains(studentId)) {
                             errors.add("invalid student|" + studentId);
                         } else {
                             enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
@@ -75,44 +91,16 @@ public class Driver2 {
             }
         }
 
-        // Cetak semua error terlebih dahulu
-        for (String error : errors) {
-            System.out.println(error);
-        }
+        errors.forEach(System.out::println);
 
-        // Cetak semua courses
-        for (Course course : courses) {
-            System.out.println(course);
-        }
+        courses.sort(Comparator.comparing(Course::getCode));
+        courses.forEach(System.out::println);
 
-        // Cetak semua students
-        for (Student student : students) {
-            System.out.println(student);
-        }
+        students.sort(Comparator.comparing(Student::getId));
+        students.forEach(System.out::println);
 
-        // Cetak semua enrollments
-        for (Enrollment enrollment : enrollments) {
-            System.out.println(enrollment);
-        }
+        enrollments.forEach(System.out::println);
 
         scanner.close();
-    }
-
-    private static boolean isCourseExists(List<Course> courses, String code) {
-        for (Course course : courses) {
-            if (course.getCode().equals(code)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean isStudentExists(List<Student> students, String id) {
-        for (Student student : students) {
-            if (student.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
