@@ -3,9 +3,7 @@ package academic.driver;
 import academic.model.Course;
 import academic.model.Enrollment;
 import academic.model.Student;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @autor 12S23034 Pariama Valentino
@@ -18,12 +16,14 @@ public class Driver1 {
         List<Course> courses = new ArrayList<>();
         List<Student> students = new ArrayList<>();
         List<Enrollment> enrollments = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
 
         while (true) {
             String input = scanner.nextLine();
             if (input.equals("---")) {
                 break;
             }
+
             String[] parts = input.split("#");
             String command = parts[0];
 
@@ -37,8 +37,6 @@ public class Driver1 {
 
                         if (!isCourseExists(courses, code)) {
                             courses.add(new Course(code, name, credits, grade));
-                        } else {
-                            System.out.println("Duplicate course detected: " + code);
                         }
                     }
                     break;
@@ -50,11 +48,8 @@ public class Driver1 {
                         int year = Integer.parseInt(parts[3]);
                         String major = parts[4];
 
-                        if (!isStudentExists(students, id)) {
-                            students.add(new Student(id, name, year, major));
-                        } else {
-                            System.out.println("Duplicate student detected: " + id);
-                        }
+                        // Jangan urutkan daftar mahasiswa, biarkan sesuai urutan input
+                        students.add(new Student(id, name, year, major));
                     }
                     break;
 
@@ -65,24 +60,36 @@ public class Driver1 {
                         String academicYear = parts[3];
                         String semester = parts[4];
 
-                        if (!isEnrollmentExists(enrollments, courseCode, studentId, academicYear, semester)) {
-                            enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
+                        if (!isCourseExists(courses, courseCode)) {
+                            errors.add("invalid course|" + courseCode);
+                        } else if (!isStudentExists(students, studentId)) {
+                            errors.add("invalid student|" + studentId);
                         } else {
-                            System.out.println("Duplicate enrollment detected: " + courseCode + " - " + studentId);
+                            enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
                         }
                     }
                     break;
             }
         }
 
+        for (String error : errors) {
+            System.out.println(error);
+        }
+
+        // Tetap urutkan daftar course
+        courses.sort(Comparator.comparing(Course::getCode));
         for (Course course : courses) {
             System.out.println(course);
         }
 
+        // Jangan urutkan daftar mahasiswa agar sesuai input
         for (Student student : students) {
             System.out.println(student);
         }
 
+        // Urutkan enrollments berdasarkan Course Code lalu Student ID
+        enrollments.sort(Comparator.comparing(Enrollment::getCourseCode)
+                                   .thenComparing(Enrollment::getStudentId));
         for (Enrollment enrollment : enrollments) {
             System.out.println(enrollment);
         }
@@ -107,16 +114,4 @@ public class Driver1 {
         }
         return false;
     }
-
-    private static boolean isEnrollmentExists(List<Enrollment> enrollments, String courseCode, String studentId, String academicYear, String semester) {
-        for (Enrollment enrollment : enrollments) {
-            if (enrollment.getCourseCode().equals(courseCode) &&
-                enrollment.getStudentId().equals(studentId) &&
-                enrollment.getAcademicYear().equals(academicYear) &&
-                enrollment.getSemester().equals(semester)) {
-                return true;
-            }
-        } 
-        return false;
-    }  
 }

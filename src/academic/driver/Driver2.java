@@ -73,9 +73,11 @@ public class Driver2 {
 
                         if (!isCourseExists(courses, courseCode)) {
                             errors.add("invalid course|" + courseCode);
-                        } else if (!isStudentExists(students, studentId)) {
+                        } 
+                        if (!isStudentExists(students, studentId)) {
                             errors.add("invalid student|" + studentId);
-                        } else {
+                        } 
+                        if (isCourseExists(courses, courseCode) && isStudentExists(students, studentId)) {
                             enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
                         }
                     }
@@ -83,24 +85,17 @@ public class Driver2 {
             }
         }
 
-        for (String error : errors) {
-            System.out.println(error);
-        }
-
+        errors.forEach(System.out::println);
+        System.out.println("---");
+        
         courses.sort(Comparator.comparing(Course::getCode));
-        for (Course course : courses) {
-            System.out.println(course);
-        }
+        courses.forEach(System.out::println);
 
-        students.sort(Comparator.comparing(Student::getId)); // Urutkan mahasiswa sebelum mencetak
-        for (Student student : students) {
-            System.out.println(student);
-        }
+        students.sort(Comparator.comparing(Student::getId));
+        students.forEach(System.out::println);
 
-        enrollments.sort(Comparator.comparing(Enrollment::getStudentId)); // Urutkan Enrollment berdasarkan ID Mahasiswa
-        for (Enrollment enrollment : enrollments) {
-            System.out.println(enrollment);
-        }
+        enrollments.sort(Comparator.comparing(Enrollment::getStudentId));
+        enrollments.forEach(System.out::println);
 
         scanner.close();
     }
