@@ -6,7 +6,6 @@ import academic.model.Student;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Comparator;
 
 /**
  * @autor 12S23034 Pariama Valentino
@@ -38,6 +37,8 @@ public class Driver1 {
 
                         if (!isCourseExists(courses, code)) {
                             courses.add(new Course(code, name, credits, grade));
+                        } else {
+                            System.out.println("Duplicate course detected: " + code);
                         }
                     }
                     break;
@@ -51,6 +52,8 @@ public class Driver1 {
 
                         if (!isStudentExists(students, id)) {
                             students.add(new Student(id, name, year, major));
+                        } else {
+                            System.out.println("Duplicate student detected: " + id);
                         }
                     }
                     break;
@@ -64,15 +67,13 @@ public class Driver1 {
 
                         if (!isEnrollmentExists(enrollments, courseCode, studentId, academicYear, semester)) {
                             enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
+                        } else {
+                            System.out.println("Duplicate enrollment detected: " + courseCode + " - " + studentId);
                         }
                     }
                     break;
             }
         }
-
-        courses.sort(Comparator.comparing(Course::getCode));
-        students.sort(Comparator.comparing(Student::getId));
-        enrollments.sort(Comparator.comparing(Enrollment::getCourseCode).thenComparing(Enrollment::getStudentId));
 
         for (Course course : courses) {
             System.out.println(course);
@@ -90,19 +91,32 @@ public class Driver1 {
     }
 
     private static boolean isCourseExists(List<Course> courses, String code) {
-        return courses.stream().anyMatch(course -> course.getCode().equals(code));
+        for (Course course : courses) {
+            if (course.getCode().equals(code)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isStudentExists(List<Student> students, String id) {
-        return students.stream().anyMatch(student -> student.getId().equals(id));
+        for (Student student : students) {
+            if (student.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isEnrollmentExists(List<Enrollment> enrollments, String courseCode, String studentId, String academicYear, String semester) {
-        return enrollments.stream().anyMatch(enrollment ->
-                enrollment.getCourseCode().equals(courseCode) &&
-                        enrollment.getStudentId().equals(studentId) &&
-                        enrollment.getAcademicYear().equals(academicYear) &&
-                        enrollment.getSemester().equals(semester));
-    }
+        for (Enrollment enrollment : enrollments) {
+            if (enrollment.getCourseCode().equals(courseCode) &&
+                enrollment.getStudentId().equals(studentId) &&
+                enrollment.getAcademicYear().equals(academicYear) &&
+                enrollment.getSemester().equals(semester)) {
+                return true;
+            }
+        } 
+        return false;
+    }  
 }
- 

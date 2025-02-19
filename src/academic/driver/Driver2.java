@@ -6,9 +6,10 @@ import academic.model.Student;
 import java.util.*;
 
 /**
- * @author 12S23034 Pariama Valentino
- * @author 12S23022 P. Santa Hillary Sitorus
+ * @autor 12S23034 Pariama Valentino
+ * @autor 12S23022 P. Santa Hillary Sitorus
  */
+
 public class Driver2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -60,12 +61,12 @@ public class Driver2 {
                         String academicYear = parts[3];
                         String semester = parts[4];
 
-                        if (!isStudentExists(students, studentId)) {
-                            errors.add("invalid student|" + studentId);
-                        } else if (!isCourseExists(courses, courseCode)) {
+                        if (!isCourseExists(courses, courseCode)) {
                             errors.add("invalid course|" + courseCode);
+                        } else if (!isStudentExists(students, studentId)) {
+                            errors.add("invalid student|" + studentId);
                         } else {
-                            // enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester, "None"));
+                            enrollments.add(new Enrollment(courseCode, studentId, academicYear, semester));
                         }
                     }
                     break;
@@ -94,10 +95,21 @@ public class Driver2 {
     }
 
     private static boolean isCourseExists(List<Course> courses, String code) {
-        return courses.stream().anyMatch(course -> course.getCode().equals(code));
+        for (Course course : courses) {
+            if (course.getCode().equals(code)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isStudentExists(List<Student> students, String id) {
-        return students.stream().anyMatch(student -> student.getId().equals(id));
+        for (Student student : students) {
+            if (student.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
+
 }
